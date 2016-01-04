@@ -1,0 +1,32 @@
+{if $formWrap}<form action="{url_for_route for="spdownload.browse"}" id="browseForm" method='get'>{/if}
+
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+label_category' iconClass='ow_ic_star'}
+	<ul id="navCategory">
+	{foreach from=$categories item="category" }
+		<li class="category_level{$category->level}">
+			<input class="checkboxclass" {if in_array($category->id,$arrayId) }checked {/if}  type="checkbox" name="ct[]" id="input_{$category->id}" value="{$category->id}">
+			<label for="input_{$category->id}">{$category->name}</label>
+		</li>
+	{/foreach}
+	</ul>
+
+	<noscript>
+	{block_decorator name='button'
+        langLabel="spdownload+filter"
+        class="ow_right ow_ic_down_arrow" type="submit"} 
+	{/block_decorator}
+	</noscript>
+{/block_decorator}
+{if $formWrap}</form>{/if}
+{if $addNew_isAuthorized}
+    {if $addNew_promoted}
+        {block_decorator name='button'
+            langLabel="spdownload+create_category"
+            class="ow_right ow_ic_add" } 
+    	{/block_decorator}
+    {else}
+       
+    {/if}
+{else}
+
+{/if}

@@ -1,0 +1,15 @@
+
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+item_user' iconClass='ow_ic_star'}
+		<table style="width:100%">
+	{foreach from=$softs item=soft}
+			<tr>
+				<td style="width:20%;padding-bottom:10px"><img style="width:48px;height:48px" src="{$soft->icon}" alt="{$soft->name}" /></td>
+				<td style="padding-bottom:10px"><b><a href={url_for_route for="spdownload.index"}/{$soft->id}-{$soft->slug}>{$soft->name}</a></b><br>{$soft->description|truncate:55:"..."}<br>
+				{if !empty($soft->avg_score)}
+					{display_rate avg_rate=$soft->avg_score}
+				{/if}
+				</td>
+			</tr>
+	{/foreach}
+		</table>
+{/block_decorator}

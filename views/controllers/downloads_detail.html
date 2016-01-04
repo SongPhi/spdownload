@@ -1,0 +1,93 @@
+<div class="ow_left ow_narrow">
+	
+	{$cmpThumbnails}
+
+	
+	{if count($fileverold) != 0}
+	<div class="ow_stdmargin ">
+		<table id="tableOldVersion" class="ow_center">
+			<tbody>
+				<tr>
+					<td colspan="3" ><b>{text key='spdownload+oldversion'}</b></td>
+				</tr>
+				{foreach from=$fileverold item=type}
+				<tr>
+					<td style="width:40%"><a class="ow_right" href="{$file->id}-{$file->slug}/get/{$type->id}/{$type->filename}">{$type->filename}</a></td>
+					<td></td>
+					<td><p class="ow_left">{$type->size} ( {$type->downloads} downloads)</p></td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{/if}
+	{$rate}
+	
+	
+	{$cmpRelatedItemUser}
+	
+	
+</div>
+
+<div class="ow_right ow_wide">
+	{block_decorator name='box' addClass='ow_stdmargin' label=$file->name iconClass='ow_ic_star'}
+		<div class="ow_automargin ow_left ow_supernarrow	 " >
+			<img style="width:100%" src="{$file->icon}" alt="{$file->name}" />
+		</div>
+		<div class="ow_right ow_superwide " >
+			<table style="width:100%;margin-bottom:10px">
+				<tr>
+					<td style="width:45%;">{$arraylabel['filename']}</td>
+					<td>{$filevernew->filename}</td>
+				</tr>
+				<tr>
+					<td style="width:45%;">{$arraylabel['filesize']}</td>
+					<td>{$filevernew->size}</td>
+				</tr>
+				<tr>
+					<td style="width:45%;">{$arraylabel['filetype']}</td>
+					<td>{$filevernew->mimeType}</td>
+				</tr>
+			</table>
+			<div class="ow_right">
+			
+			{if $addNew_isAuthorized}
+			    {if $addNew_promoted}
+					{block_decorator name='button'
+			            langLabel="spdownload+Download_File"
+			            class="ow_right ow_ic_down_arrow" onclick="window.location.href ='{url_for_route for='spdownload.filedetail:[fileId=>]'}{$file->id}-{$file->slug}/get'"} 
+		        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
+			      
+			    {else}
+			        {block_decorator name='button'
+			            langLabel="spdownload+Download_File"
+			            class="ow_right ow_ic_down_arrow" onclick="window.location.href ='{url_for_route for='spdownload.filedetail:[fileId=>]'}{$file->id}-{$file->slug}/get'"} 
+		        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
+			    {/if}
+			{else}
+				{block_decorator name='button'
+		            langLabel="spdownload+Download_File"
+		            class="ow_right ow_ic_down_arrow" id="btn-download-file"} 
+	        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
+			{/if}
+				
+        	</div>
+		</div>
+		<table style="width:100%">
+		</table>
+	{/block_decorator}
+
+	{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+file-categories' iconClass='ow_ic_star'}
+		{foreach from=$arrayCategory key=k item=category}
+			 <a href="{url_for_route for='spdownload.browse'}?ct[]={$k}"> {$category} </a>
+		{/foreach}
+	{/block_decorator}
+
+	{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+description' iconClass='ow_ic_star'}
+		{$file->description}
+	{/block_decorator}
+
+	{$comments}
+</div>
+
+

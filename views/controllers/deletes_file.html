@@ -1,0 +1,56 @@
+<div class="ow_superwide ow_stdmargin">
+	<div class="ow_left ow_supernarrow" style="text-align:center">
+		<img src="{$file->icon}" alt="{$file->name}" />
+	</div>
+	<div class="ow_right ow_superwide">
+		<h1 class="ow_stdmargin">{$file->name}</h1>
+	
+	</div>
+</div>
+
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+Thumbs' iconClass='ow_ic_star'}
+	
+{/block_decorator}
+
+<div class="ow_left ow_wide">
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+Versions' iconClass='ow_ic_star'}
+	<table class="ow_table_2">
+	    <tbody>
+	    	<tr>
+		        <th>{text key="spdownload+file-name"}</th>
+		        <th>{text key="spdownload+size"}</th>
+		    	<th>{text key="spdownload+addedTime"}</th>
+		    </tr>
+	   	 	{foreach from=$versions item=version}
+				<tr>
+					<td><a href="{url_for_route for='spdownload.index'}">{$version->filename}</a></td>
+					<td>{$version->size}</td>
+					<td>{$version->addedTime}</td>
+				</tr>
+			{/foreach}
+	    </tbody>
+	</table>
+	{$paging}
+{/block_decorator}
+</div>		
+
+<div class="ow_right ow_narrow">
+	{$cmpCategories}
+</div>		
+
+<div class="clearfix"></div>
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+description' iconClass='ow_ic_star'}
+	{$file->description}
+{/block_decorator}
+
+<div class="ow_right" >
+{form name='delete_file'}
+{submit name='delete' class='ow_button ow_ic_save'}
+{/form}
+</div>
+<div class="ow_right" style="margin-right:10px">
+{block_decorator name='button'
+    	langLabel="spdownload+delete-file-no"
+     id='button-delete-file'	onclick="location.href='{$urlBack}'"} 
+{/block_decorator}
+</div>

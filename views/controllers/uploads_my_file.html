@@ -1,0 +1,35 @@
+{style}
+	#spuploadtable td {
+		vertical-align: middle;
+	}
+{/style}
+<div >
+	<div class="ow_right ow_stdmargin">
+		{block_decorator name='button'
+        	langLabel="spdownload+uploadnew"
+        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.uploads'}'"} 
+		{/block_decorator}
+	</div>
+	<div class="clearfix"></div>
+	<table class="ow_table_2">
+	    <tbody>
+	    	<tr class="ow_tr_first">
+		        <th></th>
+		        <th>{text key="spdownload+name"}</th>
+		        <th>{text key="spdownload+description"}</th>
+		        <th>{text key="spdownload+updated"}</th>
+		    	<th>{text key="spdownload+action"}</th>
+		    </tr>
+	   	 	{foreach from=$softs item=soft}
+				<tr>
+					<td style="text-align:center"><img src="{$soft->icon}" alt="{$soft->name}" /></td>
+					<td>{$soft->name}</td>
+					<td>{$soft->description|truncate:55:"..."}</td>
+					<td>{$soft->addedTime}</td>
+					<td><a href="{$soft->url}">{text key="spdownload+updated"}</a></td>
+				</tr>
+			{/foreach}
+	    </tbody>
+	</table>
+	{$paging}
+</div>

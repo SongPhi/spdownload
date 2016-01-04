@@ -1,0 +1,23 @@
+
+
+	
+	{form name='download_form'  target="_blank"}
+<div class="ow_superwide ow_left">
+	
+	{block_decorator name='box' addClass='ow_stdmargin' langLabel ='spdownload+label_license' iconClass='ow_ic_star'} 
+		<p style="padding-left:20px">{$arraylabellicense['title_license']}</p>
+		{input name='message' style="height:200px"}
+		{input name='agreeCheck'}{label name='agreeCheck'}
+		<br>
+		<div class=" ow_right">
+			{submit id="submit_downloadfile" name='downloadfile' class='ow_right ow_button ow_ic_down_arrow'}
+		</div>
+		
+		<table style="width:100%">
+		</table>
+	{/block_decorator}
+</div>
+{/form}
+<div class="ow_supernarrow ow_right ">
+	{$cmpCategories}
+</div>

@@ -1,0 +1,9 @@
+{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+thumb' iconClass='ow_ic_star'}
+<div id="slides">
+	{foreach from=$thumbnails item=thumbnail} 
+    	<img src="{$thumbnail->uri}" alt="Error Image" >
+	{/foreach}
+    <a href="#" class="slidesjs-previous slidesjs-navigation"> < </a>
+    <a href="#" class="slidesjs-next slidesjs-navigation"> > </a>
+</div>
+{/block_decorator}

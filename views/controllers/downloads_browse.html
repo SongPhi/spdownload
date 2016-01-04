@@ -1,0 +1,23 @@
+
+
+
+<div class="ow_superwide ow_left">
+	<table class="ow_table_2 ow_txtleft ow_smallmargin">
+		<tr class="ow_center ow_tr_first">
+			<th colspan="2">{$arraylabel['label_table_th1']}</th>
+			<th width="20%">{$arraylabel['label_table_th2']}</th>
+			<th width="20%">{$arraylabel['label_table_th3']}<span>*</span></th>
+		</tr>
+		{foreach from=$files item="file" name="t"}
+		<tr>
+			<td><img src="{$file->icon}" /></td>
+			<td><a href="{url_for_route for='spdownload.index'}/{$file->id}-{$file->slug}">{$file->name}</a></td>
+			<td>{$file->description|truncate:55:"..."}</td>
+			<td>{$file->addedTime}</td>
+		</tr>
+		{/foreach}
+	</table>
+</div>
+<div class="ow_supernarrow ow_right ">
+	{$cmpCategories}
+</div>

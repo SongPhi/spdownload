@@ -1,0 +1,75 @@
+<div class="ow_automargin">
+	{form name='upload_form' }
+	<div class="ow_right" style="margin-bottom:10px">
+		{submit name='upload' class='ow_right ow_button ow_ic_up_arrow'}
+	</div>
+	<div class="clearfix"></div>
+	{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+thumb' iconClass='ow_ic_star'}
+	<div class="ow_left ow_wide">
+		<table>
+			<tr>
+				<td>{label name='upname'}</td>
+				<td>{input name='upname'}</td>
+			</tr>
+			<tr>
+				<td>{label name='upslug'}</td>
+				<td>{input name='upslug'}</td>
+			</tr>
+			<tr>
+				<td>{label name='upicon'}</td>
+				<td>{input name='upicon'}</td>
+				<td>
+					{if $flag}
+					<img src="{$file->icon}" alt="{$file->name}" width="24px" height="24px" />
+					{/if}
+					</td>
+			</tr>
+			<tr>
+				<td>{label name='upthumb'}</td>
+				<td>{input name='upthumb'}</td>
+				<td>
+					{if $flag}
+						{$num = 0}
+						{foreach from=$thumbnails item=thumbnail}
+							{for $number=0 to 4}
+								{if (($thumbnail->uri-$num) == $number) }
+									<img src={$thumbnail->image} width="24px" height="24px" />
+									{break}
+								{else}
+									<div style="height:24px;"></div>
+								{/if}
+							{/for}
+							{$num = $thumbnail->uri+1}
+						{/foreach}
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<td>{label name='updescription'}</td>
+				<td>{input name='updescription'}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="ow_right ow_narrow">
+		<table style="margin-bottom:10px;">
+			<tr>
+				<td>{label name='upfile'}</td>
+				<td>{input name='upfile'}{error name='upfile'}</td>
+			</tr>
+			
+		</table>
+		{$cmpCategories}
+		{if $flag}
+		<div class="ow_right">
+			{block_decorator name='button'
+	        	langLabel="spdownload+delete-file"
+	         id='button-delete-file'	onclick="location.href='{url_for_route for='spdownload.file:[fileId =>]'}{$file->id}-{$file->slug}'"} 
+			{/block_decorator}
+		</div>
+		{/if}
+	</div>
+	<table style="width:100%"></table>
+	{/block_decorator}
+	
+	{/form}
+</div>

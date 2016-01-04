@@ -1,0 +1,107 @@
+{style}
+.title-file  {
+	max-height: 55px; 
+	overflow: hidden;
+}
+.ow-div-file {
+	width:128px;
+	height:180px;
+	margin-left:1%;
+	margin-top:10px
+}
+.ow-div-file:hover {
+	height:180px;
+}
+.ow-div-file:hover .title-file{
+	max-height: 100px;
+	overflow: visible;
+	position : absolute;
+	max-width:128px;
+}
+
+.themsefile {
+	width:128px;
+	height:128px;
+	background-repeat:no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+{/style}
+<div>
+	<div class="ow_superwide ow_left">
+		{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+new_upload' iconClass='ow_ic_star'}
+			<!-- <noscript> -->
+				{foreach from=$filesnewup item=filenew}
+						{foreach from=$filenew item=file}
+						<div class="ow_left ow-div-file" >
+							<div class="themsefile" style="background-image:url('{$file->icon}')" >
+							
+							</div>
+							<div class="title-file">
+								<a href="{$file->urldetail}">{$file->name}</a>
+							</div>
+						</div>
+						{/foreach}
+				{/foreach}
+			<!-- </noscript> -->
+			
+			<table style="width:100%"></table>
+		{/block_decorator}
+		{block_decorator name='box' addClass='ow_stdmargin' langLabel = 'spdownload+most_download' iconClass='ow_ic_star'}
+			{foreach from=$filesmostdow item=filedow}
+					{foreach from=$filedow item=file}
+					<div class="ow_left ow-div-file" >
+						<div class="themsefile" style="background-image:url('{$file->icon}')" >
+						
+						</div>
+						<div class="title-file">
+							<a href="{$file->urldetail}">{$file->name}</a>
+						</div>
+					</div>
+					{/foreach}
+			{/foreach}
+			
+			<table style="width:100%"></table>
+		{/block_decorator}
+	</div>
+	<div class="ow_supernarrow ow_right">
+		{$cmpCategories}
+
+		{if $addNew_isAuthorized}
+		    {if $addNew_promoted}
+		    	<div class="ow_stdmargin">
+		    	{block_decorator name='button'
+		        	langLabel="spdownload+caregory-list"
+		        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.category_list'}'"} 
+				{/block_decorator}
+				</div>
+		        <div >
+					{block_decorator name='box' addClass='ow_stdmargin ow_automargin' langLabel = 'spdownload+new_upload' iconClass='ow_ic_star'}
+						<a class="error_permit" href="#">Upload new file!</a>
+						<br>
+						<a class="error_permit" href="#">Upload new file!</a>
+					{/block_decorator}
+				</div>
+		    {else}
+		    	<div class="ow_stdmargin">
+		    	{block_decorator name='button'
+		        	langLabel="spdownload+caregory-list"
+		        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.category_list'}'"} 
+				{/block_decorator}
+				</div>
+		        <div >
+					{block_decorator name='box' addClass='ow_stdmargin ow_automargin' langLabel = 'spdownload+new_upload' iconClass='ow_ic_star'}
+						<a href="{url_for_route for='spdownload.uploads'}">{text key='spdownload+uploadnew'}</a>
+						<br>
+						<a href="{url_for_route for='spdownload.up_myfile:[userId=>]'}{$myId}">{text key='spdownload+uploadmy'}</a>
+					{/block_decorator}
+				</div>
+		    {/if}
+		{else}
+
+		{/if}
+	</div>
+</div>
+<div class="clearfix"></div>
+
+

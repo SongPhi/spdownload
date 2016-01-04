@@ -1,0 +1,28 @@
+.category_level0 {
+	margin-left:0px;
+}
+.category_level1 {
+	margin-left:10%;
+}
+.category_level2 {
+	margin-left:20%;
+}
+.category_level3 {
+	margin-left:30%;
+}
+.category_level4 {
+	margin-left:40%;
+}
+.category_level5 {
+	margin-left:50%;
+}
+#navCategory label {
+	font-size: 15px;
+}
+#navCategory label:hover {
+	text-decoration: underline;
+	cursor: pointer;
+	filter:brightness(200%);
+	filter:saturate(20);
+	filter:hue-rotate(80deg);
+} 

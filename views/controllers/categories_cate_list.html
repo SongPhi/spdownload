@@ -1,0 +1,25 @@
+<div class="ow_right ow_stdmargin">
+{block_decorator name='button'
+        langLabel="spdownload+Add-category"
+            class="ow_right ow_ic_add" id="btn-download-file"} 
+{/block_decorator}
+</div>
+<div class="clearfix"></div>
+<div class="ow_automargin ow_superwide">
+	<table class="ow_table_2">
+	    <tbody>
+	    	<tr>
+		        <th>{text key="spdownload+category-name"}</th>
+		        <th>{text key="spdownload+category-parent"}</th>
+		    	<th>{text key="spdownload+category-action"}</th>
+		    </tr>
+	   	 	{foreach from=$categories item=category}
+				<tr>
+					<td>{$category->name}</td>
+					<td>{$category->parentId}</td>
+					<td><a href="{url_for_route for='spdownload.category'}/{$category->id}">Edit</a> {if $category->countParent !=0} {else} <a href="{$category->urlDelete}" >Delete</a> {/if}</td>
+				</tr>
+			{/foreach}
+	    </tbody>
+	</table>
+</div>
