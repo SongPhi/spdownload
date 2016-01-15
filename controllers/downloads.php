@@ -2,14 +2,6 @@
 
 class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 {
-    public function checkPermissions()
-    {
-        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
-        $checkpermissions->getInstance()->checkpageurl('download');
-        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('download');
-        $this->assign('addNew_promoted', $arrayCheck['promoted']);
-        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
-    }
 
     public function index()
     {
@@ -109,18 +101,11 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 
 	public function getfile($params)
 	{
-        if ( !OW::getUser()->isAuthenticated() )
-        {
-            throw new AuthenticateException();
-        }
-
-        if ( !OW::getUser()->isAuthorized('spdownload', 'download') )
-        {
-            $status = BOL_AuthorizationService::getInstance()->getActionStatus('spdownload', 'download');
-            throw new AuthorizationException($status['msg']);
-
-            return;
-        }
+        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+        $checkpermissions->getInstance()->checkpageurl('download');
+        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('download');
+        $this->assign('addNew_promoted', $arrayCheck['promoted']);
+        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
 
         $versionId = $params['versionId'];
         $vFileName = $params['vFileName'];
@@ -206,7 +191,13 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 
     public function getlatestfile( $params ) 
     {
-        $params['fileId'] = substr($params['fileId'],0,strrpos($params['fileId'], "-"));
+        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+        $checkpermissions->getInstance()->checkpageurl('download');
+        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('download');
+        $this->assign('addNew_promoted', $arrayCheck['promoted']);
+        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
+        
+        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
         $filevernew = SPDOWNLOAD_BOL_VersionService::getInstance()->getFileVerNew($params['fileId']);
         $params['versionId'] = $filevernew[0]->id;
         $params['vFileName'] = $filevernew[0]->filename;
@@ -216,15 +207,15 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 
     public function detail($params)
     {
+        
 
         $document = OW::getDocument();
         $plugin = OW::getPluginManager()->getPlugin('spdownload');
         $document->addStyleSheet($plugin->getStaticCssUrl() . 'file_detail.css');
         $check = $params['fileId'];
 
-        if (!strrpos($params['fileId'], "-"))  throw new Redirect404Exception();
-
-        $params['fileId'] = substr($params['fileId'],0,strrpos($params['fileId'], "-"));
+        if (!strstr($params['fileId'], "-", true))  throw new Redirect404Exception();
+        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
         $file = SPDOWNLOAD_BOL_FileService::getInstance()->getFileId($params['fileId']);
 
         if ($file->id.'-'.$file->slug != $check) throw new Redirect404Exception();
@@ -278,10 +269,10 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         $this->addComponent('comments', new BASE_CMP_Comments($cmpParams));
 
         $arraylabel = array(
-            "filename" => OW::getLanguage()->text('spdownload', 'label_name'),
-            "filesize" => OW::getLanguage()->text('spdownload', 'label_size'),
-            "filetype" => OW::getLanguage()->text('spdownload', 'label_type'),
-            "filedown" => OW::getLanguage()->text('spdownload', 'label_download')
+            "filename" => OW::getLanguage()->text('spdownload', 'label_file_name'),
+            "filesize" => OW::getLanguage()->text('spdownload', 'label_file_size'),
+            "filetype" => OW::getLanguage()->text('spdownload', 'label_file_type'),
+            "filedown" => OW::getLanguage()->text('spdownload', 'label_file_download')
         );
         $url = OW::getPluginManager()->getPlugin('spdownload')->getUserFilesUrl();
         $nameImage          = 'icon_large_'.$file->id.'.png';

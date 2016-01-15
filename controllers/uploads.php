@@ -25,9 +25,9 @@ class SPDOWNLOAD_CTRL_Uploads extends OW_ActionController
         $arrayCheckCategory = array();
         if (!empty($params) && isset($params['fileId'])) 
         {
-	        if (!strrpos($params['fileId'], "-"))  throw new Redirect404Exception();
+	        if (!strstr($params['fileId'], "-", true))  throw new Redirect404Exception();
 	        $check = $params['fileId'];
-	        $params['fileId'] = substr($params['fileId'],0,strrpos($params['fileId'], "-"));
+	        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
 	        $file = SPDOWNLOAD_BOL_FileService::getInstance()->getFileId($params['fileId']);
 
 	        if ($file->id.'-'.$file->slug != $check) throw new Redirect404Exception();

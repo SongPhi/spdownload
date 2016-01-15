@@ -50,26 +50,11 @@
 				</tr>
 			</table>
 			<div class="ow_right">
+			{block_decorator name='button'
+			            langLabel="spdownload+Download_File"
+			            class="ow_right ow_ic_down_arrow" onclick="window.location.href ='{url_for_route for='spdownload.filedetail:[fileId=>]'}{$file->id}-{$file->slug}/get'"} 
+		        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
 			
-			{if $addNew_isAuthorized}
-			    {if $addNew_promoted}
-					{block_decorator name='button'
-			            langLabel="spdownload+Download_File"
-			            class="ow_right ow_ic_down_arrow" onclick="window.location.href ='{url_for_route for='spdownload.filedetail:[fileId=>]'}{$file->id}-{$file->slug}/get'"} 
-		        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
-			      
-			    {else}
-			        {block_decorator name='button'
-			            langLabel="spdownload+Download_File"
-			            class="ow_right ow_ic_down_arrow" onclick="window.location.href ='{url_for_route for='spdownload.filedetail:[fileId=>]'}{$file->id}-{$file->slug}/get'"} 
-		        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
-			    {/if}
-			{else}
-				{block_decorator name='button'
-		            langLabel="spdownload+Download_File"
-		            class="ow_right ow_ic_down_arrow" id="btn-download-file"} 
-	        	{/block_decorator} <br>{$arraylabel['filedown']} : {$file->downloads}
-			{/if}
 				
         	</div>
 		</div>
