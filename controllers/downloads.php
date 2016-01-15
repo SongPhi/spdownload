@@ -196,8 +196,8 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         $arrayCheck = $checkpermissions->getInstance()->checkpageclick('download');
         $this->assign('addNew_promoted', $arrayCheck['promoted']);
         $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
-        
-        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
+
+        $params['fileId'] = substr($params['fileId'],0,stripos($params['fileId'], "-"));
         $filevernew = SPDOWNLOAD_BOL_VersionService::getInstance()->getFileVerNew($params['fileId']);
         $params['versionId'] = $filevernew[0]->id;
         $params['vFileName'] = $filevernew[0]->filename;
@@ -213,9 +213,8 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         $plugin = OW::getPluginManager()->getPlugin('spdownload');
         $document->addStyleSheet($plugin->getStaticCssUrl() . 'file_detail.css');
         $check = $params['fileId'];
-
-        if (!strstr($params['fileId'], "-", true))  throw new Redirect404Exception();
-        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
+        if (!stripos($params['fileId'], "-"))  throw new Redirect404Exception();
+        $params['fileId'] = substr($params['fileId'],0,stripos($params['fileId'], "-"));
         $file = SPDOWNLOAD_BOL_FileService::getInstance()->getFileId($params['fileId']);
 
         if ($file->id.'-'.$file->slug != $check) throw new Redirect404Exception();

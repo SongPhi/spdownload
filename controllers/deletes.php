@@ -18,9 +18,9 @@ class SPDOWNLOAD_CTRL_Deletes extends OW_ActionController
 
         if (empty($params) && !isset($params['fileId'])) throw new Redirect404Exception();
 
-        if (!strstr($params['fileId'], "-", true))  throw new Redirect404Exception();
+        if (!stripos($params['fileId'], "-"))  throw new Redirect404Exception();
         $check = $params['fileId'];
-        $params['fileId'] = substr($params['fileId'],0,strstr($params['fileId'], "-", true));
+        $params['fileId'] = substr($params['fileId'],0,stripos($params['fileId'], "-"));
         $file = SPDOWNLOAD_BOL_FileService::getInstance()->getFileId($params['fileId']);
 
         if ($file->id.'-'.$file->slug != $check) throw new Redirect404Exception();
