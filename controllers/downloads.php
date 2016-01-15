@@ -2,8 +2,24 @@
 
 class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 {
+    public function checkPermissions()
+    {
+        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+        $checkpermissions->getInstance()->checkpageurl('download');
+        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('download');
+        $this->assign('addNew_promoted', $arrayCheck['promoted']);
+        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
+    }
+
     public function index()
     {
+
+        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('create_category');
+        $this->assign('addNew_promoted', $arrayCheck['promoted']);
+        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
+
+
         $document = OW::getDocument();
         $plugin = OW::getPluginManager()->getPlugin('spdownload');
         $this->setPageTitle(OW::getLanguage()->text('spdownload', 'index_page_title')); 
@@ -15,34 +31,6 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         $this->addComponent('cmpCategories', $cmpCategories);
 
         $this->assign('myId', OW::getUser()->getId());
-
-        $addNew_promoted = false;
-        $addNew_isAuthorized = false;
-        if (OW::getUser()->isAuthenticated())
-        {
-            if (OW::getUser()->isAuthorized('spdownload', 'upload'))
-            {
-                $addNew_isAuthorized = true;
-            }
-            else
-            {
-                $status = BOL_AuthorizationService::getInstance()->getActionStatus('spdownload', 'upload');
-                if ($status['status'] == BOL_AuthorizationService::STATUS_PROMOTED)
-                {
-                    $addNew_promoted = true;
-                    $addNew_isAuthorized = true;
-                }
-                else
-                {
-                    $addNew_isAuthorized = false;
-                }
-                $script = '$(".error_permit").click(function(){
-                        OW.authorizationLimitedFloatbox('.json_encode($status['msg']).');
-                        return false;
-                    });';
-                OW::getDocument()->addOnloadScript($script);
-            }
-        }
 
         $filesnewup = array();
         $filesnewup[0] = SPDOWNLOAD_BOL_FileService::getInstance()->getFileListNewUpload(0,5);
@@ -83,8 +71,6 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 
         $this->assign('filesmostdow', $filesmostdow);
         $this->assign('filesnewup', $filesnewup);
-        $this->assign('addNew_isAuthorized', $addNew_isAuthorized);
-        $this->assign('addNew_promoted', $addNew_promoted);
     }
 
 	public function browse()
@@ -220,18 +206,6 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
 
     public function getlatestfile( $params ) 
     {
-        if ( !OW::getUser()->isAuthenticated() )
-        {
-            throw new AuthenticateException();
-        }
-
-        if ( !OW::getUser()->isAuthorized('spdownload', 'download') )
-        {
-            $status = BOL_AuthorizationService::getInstance()->getActionStatus('spdownload', 'download');
-            throw new AuthorizationException($status['msg']);
-
-            return;
-        }
         $params['fileId'] = substr($params['fileId'],0,strrpos($params['fileId'], "-"));
         $filevernew = SPDOWNLOAD_BOL_VersionService::getInstance()->getFileVerNew($params['fileId']);
         $params['versionId'] = $filevernew[0]->id;
@@ -313,33 +287,7 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         $nameImage          = 'icon_large_'.$file->id.'.png';
         $file->icon = $url.$nameImage;
 
-        $addNew_promoted = false;
-        $addNew_isAuthorized = false;
-        if (OW::getUser()->isAuthenticated())
-        {
-            if (OW::getUser()->isAuthorized('spdownload', 'download'))
-            {
-                $addNew_isAuthorized = true;
-            }
-            else
-            {
-                $status = BOL_AuthorizationService::getInstance()->getActionStatus('spdownload', 'download');
-                if ($status['status'] == BOL_AuthorizationService::STATUS_PROMOTED)
-                {
-                    $addNew_promoted = true;
-                    $addNew_isAuthorized = true;
-                }
-                else
-                {
-                    $addNew_isAuthorized = false;
-                }
-                $script = '$("#btn-download-file").click(function(){
-                        OW.authorizationLimitedFloatbox('.json_encode($status['msg']).');
-                        return false;
-                    });';
-                OW::getDocument()->addOnloadScript($script);
-            }
-        }
+        
 
         $CategoryIdList = SPDOWNLOAD_BOL_FileCategoryService::getInstance()->getCategoryId($params['fileId']);
         $arrayCategory = array();
@@ -349,8 +297,6 @@ class SPDOWNLOAD_CTRL_Downloads extends OW_ActionController
         }
         
         $this->assign('arrayCategory', $arrayCategory);
-        $this->assign('addNew_isAuthorized', $addNew_isAuthorized);
-        $this->assign('addNew_promoted', $addNew_promoted);
         
         $this->assign('file', $file);
         $this->assign('var', $file->id);

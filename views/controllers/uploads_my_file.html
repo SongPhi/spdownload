@@ -5,28 +5,40 @@
 {/style}
 <div >
 	<div class="ow_right ow_stdmargin">
-		{block_decorator name='button'
-        	langLabel="spdownload+uploadnew"
-        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.uploads'}'"} 
-		{/block_decorator}
+		{if $addNew_isAuthorized}
+		    {if $addNew_promoted}
+		        {block_decorator name='button'
+		        	langLabel="spdownload+uploadnew"
+		        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.uploads'}'"} 
+				{/block_decorator}
+		    {else}
+		       {block_decorator name='button'
+		        	langLabel="spdownload+uploadnew"
+		        	class="ow_right ow_ic_up_arrow" onclick="location.href='{url_for_route for='spdownload.uploads'}'"} 
+				{/block_decorator}
+		    {/if}
+		{else}
+
+		{/if}
+		
 	</div>
 	<div class="clearfix"></div>
-	<table class="ow_table_2">
+	<table class="ow_table_1">
 	    <tbody>
 	    	<tr class="ow_tr_first">
 		        <th></th>
-		        <th>{text key="spdownload+name"}</th>
-		        <th>{text key="spdownload+description"}</th>
-		        <th>{text key="spdownload+updated"}</th>
-		    	<th>{text key="spdownload+action"}</th>
+		        <th>{text key="spdownload+file-name"}</th>
+		        <th>{text key="spdownload+file-description"}</th>
+		        <th>{text key="spdownload+file-updated"}</th>
+		    	<th>{text key="spdownload+file-action"}</th>
 		    </tr>
 	   	 	{foreach from=$softs item=soft}
 				<tr>
 					<td style="text-align:center"><img src="{$soft->icon}" alt="{$soft->name}" /></td>
-					<td>{$soft->name}</td>
-					<td>{$soft->description|truncate:55:"..."}</td>
+					<td style="max-width:100px">{$soft->name}</td>
+					<td style="max-width:200px">{$soft->description|truncate:55:"..."}</td>
 					<td>{$soft->addedTime}</td>
-					<td><a href="{$soft->url}">{text key="spdownload+updated"}</a></td>
+					<td><a href="{$soft->url}">{text key="spdownload+file-updated"}</a></td>
 				</tr>
 			{/foreach}
 	    </tbody>

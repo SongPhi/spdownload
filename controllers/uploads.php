@@ -3,6 +3,16 @@
 class SPDOWNLOAD_CTRL_Uploads extends OW_ActionController
 {
 	const RATES_ENTITY_TYPE = 'spdownload-software';
+
+	public function __construct() 
+    { 
+        $checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+        $checkpermissions->getInstance()->checkpageurl('upload');
+        $arrayCheck = $checkpermissions->getInstance()->checkpageclick('upload');
+        $this->assign('addNew_promoted', $arrayCheck['promoted']);
+        $this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
+    }
+
 	public function index($params)
 	{
 		$filevernew = array();
@@ -11,19 +21,6 @@ class SPDOWNLOAD_CTRL_Uploads extends OW_ActionController
 
 		$this->setPageTitle(OW::getLanguage()->text('spdownload', 'index_upload_title')); 
         $this->setPageHeading(OW::getLanguage()->text('spdownload', 'index_upload_heading')); 
-
-		if ( !OW::getUser()->isAuthenticated() )
-        {
-            throw new AuthenticateException();
-        }
-
-        if ( !OW::getUser()->isAuthorized('spdownload', 'upload') )
-        {
-            $status = BOL_AuthorizationService::getInstance()->getActionStatus('spdownload', 'upload');
-            throw new AuthorizationException($status['msg']);
-
-            return;
-        }
 
         $arrayCheckCategory = array();
         if (!empty($params) && isset($params['fileId'])) 
@@ -113,8 +110,6 @@ class SPDOWNLOAD_CTRL_Uploads extends OW_ActionController
 					{
 						$arrayAdd = array_diff($_POST['ct'], $arrayCheckCategory);
 						$arrayDelete = array_diff($arrayCheckCategory, $_POST['ct']);
-						var_dump($arrayAdd);
-						var_dump($arrayDelete);
 						foreach ($arrayDelete as $key => $value) {
 							SPDOWNLOAD_BOL_FileCategoryService::getInstance()->deleteId( $params['fileId'], $value );
 						}
@@ -199,6 +194,7 @@ class SPDOWNLOAD_CTRL_Uploads extends OW_ActionController
         {
             throw new Redirect404Exception();
         }
+        
         $page = empty($_GET['page']) ? 1 : $_GET['page'];
         $rpp = 5;
         $first = ($page - 1) * $rpp;

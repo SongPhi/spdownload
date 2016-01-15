@@ -2,8 +2,18 @@
 
 class SPDOWNLOAD_CTRL_Categories extends OW_ActionController
 {
+	public function __construct() 
+	{ 
+		$checkpermissions = new SPDOWNLOAD_CLASS_Permissions();
+       	$checkpermissions->getInstance()->checkpageurl('create_category');
+		$arrayCheck = $checkpermissions->getInstance()->checkpageclick('create_category');
+		$this->assign('addNew_promoted', $arrayCheck['promoted']);
+		$this->assign('addNew_isAuthorized', $arrayCheck['isAuthorized']);
+	}
+
 	public function index( $params ) 
 	{
+		
 		$this->setPageTitle(OW::getLanguage()->text('spdownload', 'category_index_page_title')); 
 		$this->setPageHeading(OW::getLanguage()->text('spdownload', 'category_index_page_heading')); 
 

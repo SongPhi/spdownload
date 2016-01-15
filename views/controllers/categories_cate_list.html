@@ -1,8 +1,19 @@
 <div class="ow_right ow_stdmargin">
-{block_decorator name='button'
-        langLabel="spdownload+Add-category"
-            class="ow_right ow_ic_add" id="btn-download-file"} 
-{/block_decorator}
+{if $addNew_isAuthorized}
+    {if $addNew_promoted}
+        {block_decorator name='button'
+	        langLabel="spdownload+Add-category"
+	            class="ow_right ow_ic_add" onclick="location.href='{url_for_route for='spdownload.category'}'"} 
+		{/block_decorator}
+    {else}
+       {block_decorator name='button'
+	        langLabel="spdownload+Add-category"
+	            class="ow_right ow_ic_add" onclick="location.href='{url_for_route for='spdownload.category'}'"} 
+		{/block_decorator}
+    {/if}
+{else}
+
+{/if}
 </div>
 <div class="clearfix"></div>
 <div class="ow_automargin ow_superwide">
